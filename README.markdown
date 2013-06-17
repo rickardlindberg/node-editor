@@ -6,6 +6,8 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #5 (17 June 2013): Write regression test using pdiff
+
 ## #4 (17 June 2013): Write regression test using pdiff
 
 ## #3 (17 June 2013): Write regression test using pdiff
