@@ -17,6 +17,7 @@ setupMainWindow = do
     canvas     `onExpose`   redraw canvas
 
     widgetShowAll mainWindow
+    windowResize mainWindow 800 600
     return ()
 
 handleKeyPress event = do
