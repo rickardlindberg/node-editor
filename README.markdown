@@ -6,6 +6,14 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #2 (17 June 2013): Work on first story
+
+* Copied GTK code from another project (codemonitor)
+* Needed to install GTK
+    * yum install gtk2-devel
+    * cabal install gtk2hs-buildtools
+    * cabal install gtk
+
 ## #1 (17 June 2013): Figure out first story
 
 Brainstorm requirements:
