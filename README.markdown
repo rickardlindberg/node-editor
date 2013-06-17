@@ -6,6 +6,8 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #3 (17 June 2013): Write regression test using pdiff
+
 ## #2 (17 June 2013): Work on first story
 
 * Copied GTK code from another project (codemonitor)
