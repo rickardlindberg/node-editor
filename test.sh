@@ -1,15 +1,16 @@
 #!/bin/sh
 
-Xnest :2 -ac -geometry 400x200 &
-xnest_pid=$!
-sleep 1
+Xvfb :2 -screen 0 800x600x16 &
+xvfb_pid=$!
 
-DISPLAY=:2 runhaskell Main.hs &
-sleep 1
+ghc --make Main.hs
+DISPLAY=:2 ./Main &
 program_pid=$!
-
-#DISPLAY=:2 scrot foo.png
 sleep 1
+
+xwd -display :2 -silent -root -out image.xwd
+convert image.xwd image.png
+rm image.xwd
 
 kill -9 $program_pid
-kill -9 $xnest_pid
+kill -9 $xvfb_pid
