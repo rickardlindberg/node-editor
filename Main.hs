@@ -3,11 +3,7 @@ import Data.IORef
 import Graphics.Rendering.Cairo
 import Graphics.UI.Gtk
 import System.Process
-
-data Node = Node
-    { header :: String
-    , body   :: String
-    }
+import Node
 
 main :: IO ()
 main = do
@@ -20,11 +16,8 @@ setupMainWindow = do
     canvas <- drawingAreaNew
     set mainWindow [ windowTitle := "Node Editor", containerChild := canvas ]
 
-    let header = "README.markdown"
-    body <- readFile header
-    let nodes = [Node header body]
-
-    refNodes <- newIORef nodes
+    node <- nodeFromFile "README.markdown"
+    refNodes <- newIORef (nodesFromNodes [node])
 
     mainWindow `onDestroy`  mainQuit
     mainWindow `onKeyPress` handleKeyPress refNodes
@@ -36,12 +29,12 @@ setupMainWindow = do
 
 handleKeyPress refNodes event = do
     nodes <- readIORef refNodes
-    let [Node header body] = nodes
 
-    readProcess "gvim" [header] ""
+    let node = getSelected nodes
+    readProcess "gvim" [header node] ""
 
-    body <- readFile header
-    writeIORef refNodes [Node header body]
+    newBody <- readFile (header node)
+    modifyIORef refNodes (updateBody newBody)
 
     putStrLn "key pressed"
     return True
@@ -60,18 +53,18 @@ redraw refNodes canvas event = do
         setSourceRGBA r g b a
         paint
 
-        let [Node header body] = nodes
+        let node = getSelected nodes
 
         selectFontFace fontName FontSlantNormal FontWeightBold
         setFontSize fontSize
         setSourceRGBA 0 0 0 0.8
         moveTo 10 20
-        showText header
+        showText (header node)
 
         selectFontFace fontName FontSlantNormal FontWeightBold
         setFontSize fontSize
         setSourceRGBA 0 0 0 0.8
-        forM (zip [0..] (lines body)) $ \(no, line) -> do
+        forM (zip [0..] (lines (body node))) $ \(no, line) -> do
             moveTo 200 (20 + 20 * no)
             showText line
 

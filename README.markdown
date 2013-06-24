@@ -6,6 +6,8 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #7 (24 June 2013): Extract node functionality to separate module
+
 ## #6 (24 June 2013): Flesh out display -> edit -> display cycle
 
 ## #5 (17 June 2013): Write regression test using pdiff
