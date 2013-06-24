@@ -1,6 +1,8 @@
-import Graphics.UI.Gtk
-import Graphics.Rendering.Cairo
 import Control.Monad
+import Data.IORef
+import Graphics.Rendering.Cairo
+import Graphics.UI.Gtk
+import System.Process
 
 data Node = Node
     { header :: String
@@ -22,24 +24,36 @@ setupMainWindow = do
     body <- readFile header
     let nodes = [Node header body]
 
+    refNodes <- newIORef nodes
+
     mainWindow `onDestroy`  mainQuit
-    mainWindow `onKeyPress` handleKeyPress
-    canvas     `onExpose`   redraw nodes canvas
+    mainWindow `onKeyPress` handleKeyPress refNodes
+    canvas     `onExpose`   redraw refNodes canvas
 
     widgetShowAll mainWindow
     windowResize mainWindow 800 600
     return ()
 
-handleKeyPress event = do
+handleKeyPress refNodes event = do
+    nodes <- readIORef refNodes
+    let [Node header body] = nodes
+
+    readProcess "gvim" [header] ""
+
+    body <- readFile header
+    writeIORef refNodes [Node header body]
+
     putStrLn "key pressed"
     return True
 
 fontName = "Monospace"
 fontSize = 14.0
 
-redraw nodes canvas event = do
+redraw refNodes canvas event = do
     (w, h) <- widgetGetSize canvas
     drawing <- widgetGetDrawWindow canvas
+
+    nodes <- readIORef refNodes
 
     renderWithDrawable drawing $ do
         let (r, g, b, a) = (1.0, 0.5, 0.5, 1.0)
