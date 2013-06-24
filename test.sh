@@ -5,7 +5,7 @@ Xvfb :2 -screen 0 800x600x16 > /dev/null 2>&1 &
 xvfb_pid=$!
 
 # Run our program
-ghc --make Main.hs
+ghc --make Main.hs || exit
 DISPLAY=:2 ./Main > /dev/null 2>&1 &
 program_pid=$!
 sleep 1
