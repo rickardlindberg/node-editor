@@ -6,6 +6,10 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #8 (24 June 2013): Fix problems
+
+* Only enter key opens editor
+
 ## #7 (24 June 2013): Extract node functionality to separate module
 
 ## #6 (24 June 2013): Flesh out display -> edit -> display cycle

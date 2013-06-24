@@ -16,28 +16,29 @@ setupMainWindow = do
     canvas <- drawingAreaNew
     set mainWindow [ windowTitle := "Node Editor", containerChild := canvas ]
 
-    node <- nodeFromFile "README.markdown"
+    node <- nodeFromFile "test.sh"
     refNodes <- newIORef (nodesFromNodes [node])
 
     mainWindow `onDestroy`  mainQuit
-    mainWindow `onKeyPress` handleKeyPress refNodes
+    mainWindow `on`         keyPressEvent $ tryEvent $ do
+                                "Return" <- eventKeyName
+                                liftIO $ handleEnter refNodes
     canvas     `onExpose`   redraw refNodes canvas
 
     widgetShowAll mainWindow
     windowResize mainWindow 800 600
     return ()
 
-handleKeyPress refNodes event = do
+handleEnter :: IORef Nodes -> IO ()
+handleEnter refNodes = do
+    -- Get selected
     nodes <- readIORef refNodes
-
     let node = getSelected nodes
+    -- Edit it
     readProcess "gvim" [header node] ""
-
+    -- Save it
     newBody <- readFile (header node)
     modifyIORef refNodes (updateBody newBody)
-
-    putStrLn "key pressed"
-    return True
 
 fontName = "Monospace"
 fontSize = 14.0
