@@ -11,13 +11,28 @@ main = hspec $ do
 
     describe "nodes" $ do
 
-        it "can be created from nodes" $ do
-            node <- nodeFromFile "test_data/nodes/node1"
-            let nodes = nodesFromNodes [node]
-            getSelected nodes `shouldBe` node
-
         it "can return all nodes" $ do
             node1 <- nodeFromFile "test_data/nodes/node1"
             node2 <- nodeFromFile "Tests.hs"
             let nodes = nodesFromNodes [node1, node2]
             getTopLevelNodes nodes `shouldBe` [node1, node2]
+
+    describe "selected node" $ do
+
+        it "is the first" $ do
+            node1 <- nodeFromFile "test_data/nodes/node1"
+            node2 <- nodeFromFile "test_data/nodes/node2"
+            let nodes = nodesFromNodes [node1, node2]
+            getSelected nodes `shouldBe` node1
+
+        it "can be moved down" $ do
+            node1 <- nodeFromFile "test_data/nodes/node1"
+            node2 <- nodeFromFile "test_data/nodes/node2"
+            let nodes = moveDown (nodesFromNodes [node1, node2])
+            getSelected nodes `shouldBe` node2
+
+        it "can be moved up" $ do
+            node1 <- nodeFromFile "test_data/nodes/node1"
+            node2 <- nodeFromFile "test_data/nodes/node2"
+            let nodes = moveUp (moveDown (nodesFromNodes [node1, node2]))
+            getSelected nodes `shouldBe` node1

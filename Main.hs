@@ -20,10 +20,18 @@ setupMainWindow = do
     node2 <- nodeFromFile "test_data/nodes/node2"
     refNodes <- newIORef (nodesFromNodes [node1, node2])
 
+    let forceRedraw = postGUIAsync $ widgetQueueDraw canvas
+
     mainWindow `onDestroy`  mainQuit
     mainWindow `on`         keyPressEvent $ tryEvent $ do
                                 "Return" <- eventKeyName
                                 liftIO $ handleEnter refNodes
+    mainWindow `on`         keyPressEvent $ tryEvent $ do
+                                "j" <- eventKeyName
+                                liftIO $ modifyIORef refNodes moveDown >> forceRedraw >> putStrLn "down"
+    mainWindow `on`         keyPressEvent $ tryEvent $ do
+                                "k" <- eventKeyName
+                                liftIO $ modifyIORef refNodes moveUp >> forceRedraw >> putStrLn "up"
     canvas     `onExpose`   redraw refNodes canvas
 
     widgetShowAll mainWindow

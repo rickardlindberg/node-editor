@@ -9,6 +9,7 @@ Work is done in pomodoros. What is done in each pomodoro is documented below.
 ## #10 (25 June 2013): Fix problems
 
 * Pdiff test is not reliable when we change source files
+* Selected node can not be changed
 
 ## #9 (25 June 2013): Fix problems
 
