@@ -12,11 +12,11 @@ sleep 1
 
 # Take the screenshot
 xwd -display :2 -silent -root -out image.xwd
-convert image.xwd tests/actual_screenshot.png
+convert image.xwd test_data/actual_screenshot.png
 rm image.xwd
 
 # Diff
-pdiff tests/actual_screenshot.png tests/approved_screenshot.png -output tests/screenshot_diff.ppm && rm -f tests/screenshot_diff.ppm tests/actual_screenshot.png
+pdiff test_data/actual_screenshot.png test_data/approved_screenshot.png -output test_data/screenshot_diff.ppm && rm -f test_data/screenshot_diff.ppm test_data/actual_screenshot.png
 
 # Kill processes
 kill -9 $program_pid
