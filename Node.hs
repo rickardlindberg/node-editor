@@ -11,7 +11,7 @@ data Node = Node
     } deriving (Show, Eq)
 
 getSelected :: Nodes -> Node
-getSelected (Nodes _ [x]) = x
+getSelected (Nodes _ (x:_)) = x
 
 updateBody :: String -> Nodes -> Nodes
 updateBody newBody (Nodes x [Node header _]) = Nodes x [Node header newBody]
@@ -23,3 +23,6 @@ nodeFromFile path = do
 
 nodesFromNodes :: [Node] -> Nodes
 nodesFromNodes nodes@(Node { header = header}:_) = Nodes header nodes
+
+getTopLevelNodes :: Nodes -> [Node]
+getTopLevelNodes (Nodes _ topLevelNodes) = topLevelNodes

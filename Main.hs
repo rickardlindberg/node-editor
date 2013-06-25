@@ -16,8 +16,9 @@ setupMainWindow = do
     canvas <- drawingAreaNew
     set mainWindow [ windowTitle := "Node Editor", containerChild := canvas ]
 
-    node <- nodeFromFile "test.sh"
-    refNodes <- newIORef (nodesFromNodes [node])
+    testNode <- nodeFromFile "test.sh"
+    readmeNode <- nodeFromFile "README.markdown"
+    refNodes <- newIORef (nodesFromNodes [testNode, readmeNode])
 
     mainWindow `onDestroy`  mainQuit
     mainWindow `on`         keyPressEvent $ tryEvent $ do
@@ -54,18 +55,17 @@ redraw refNodes canvas event = do
         setSourceRGBA r g b a
         paint
 
-        let node = getSelected nodes
+        selectFontFace fontName FontSlantNormal FontWeightBold
+        setFontSize fontSize
+        setSourceRGBA 0 0 0 0.8
+        forM (zip [0..] (getTopLevelNodes nodes)) $ \(no, node) -> do
+            moveTo 10 (20 + 20 * no)
+            showText (header node)
 
         selectFontFace fontName FontSlantNormal FontWeightBold
         setFontSize fontSize
         setSourceRGBA 0 0 0 0.8
-        moveTo 10 20
-        showText (header node)
-
-        selectFontFace fontName FontSlantNormal FontWeightBold
-        setFontSize fontSize
-        setSourceRGBA 0 0 0 0.8
-        forM (zip [0..] (lines (body node))) $ \(no, line) -> do
+        forM (zip [0..] (lines (body (getSelected nodes)))) $ \(no, line) -> do
             moveTo 200 (20 + 20 * no)
             showText line
 
