@@ -16,9 +16,9 @@ setupMainWindow = do
     canvas <- drawingAreaNew
     set mainWindow [ windowTitle := "Node Editor", containerChild := canvas ]
 
-    testNode <- nodeFromFile "test.sh"
-    readmeNode <- nodeFromFile "README.markdown"
-    refNodes <- newIORef (nodesFromNodes [testNode, readmeNode])
+    node1 <- nodeFromFile "test_data/nodes/node1"
+    node2 <- nodeFromFile "test_data/nodes/node2"
+    refNodes <- newIORef (nodesFromNodes [node1, node2])
 
     mainWindow `onDestroy`  mainQuit
     mainWindow `on`         keyPressEvent $ tryEvent $ do

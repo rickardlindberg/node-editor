@@ -1,2 +1,2 @@
 #!/bin/sh
-runhaskell Tests.hs && ./test.sh
+runhaskell Tests.hs && ./pdiff_tests.sh
