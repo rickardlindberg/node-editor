@@ -18,7 +18,9 @@ getSelected (Nodes selected nodes) = find nodes
                           else find xs
 
 updateBody :: String -> Nodes -> Nodes
-updateBody newBody (Nodes x [Node header _]) = Nodes x [Node header newBody]
+updateBody newBody (Nodes selected nodes) = Nodes selected newNodes
+    where
+        newNodes = map (\node -> if header node == selected then Node selected newBody else node) nodes
 
 nodeFromFile :: FilePath -> IO Node
 nodeFromFile path = do

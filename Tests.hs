@@ -17,6 +17,14 @@ main = hspec $ do
             let nodes = nodesFromNodes [node1, node2]
             getTopLevelNodes nodes `shouldBe` [node1, node2]
 
+    describe "updating the body of a node" $ do
+
+        it "works with multiple nodes" $ do
+            node1 <- nodeFromFile "test_data/nodes/node1"
+            node2 <- nodeFromFile "Tests.hs"
+            let nodes = updateBody "new body" (nodesFromNodes [node1, node2])
+            body (getSelected nodes) `shouldBe` "new body"
+
     describe "selected node" $ do
 
         it "is the first" $ do

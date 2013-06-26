@@ -6,6 +6,10 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #11 (26 June 2013): Fix problems
+
+* Updating body does no longer work
+
 ## #10 (25 June 2013): Fix problems
 
 * Pdiff test is not reliable when we change source files
