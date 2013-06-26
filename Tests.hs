@@ -3,11 +3,15 @@ import Node
 
 main = hspec $ do
 
-    describe "node" $ do
+    describe "node creation" $ do
 
         it "can be created from file" $ do
             node <- nodeFromFile "test_data/nodes/node1"
             header node `shouldBe` "test_data/nodes/node1"
+
+        it "can be created from directory" $ do
+            nodes <- nodesFromDir "test_data/nodes/"
+            length (getTopLevelNodes nodes) `shouldBe` 2
 
     describe "nodes" $ do
 

@@ -6,6 +6,10 @@ world by looking at it from a different angle.
 
 Work is done in pomodoros. What is done in each pomodoro is documented below.
 
+## #12 (26 June 2013): Fix problems
+
+* Nodes in editor is static, I want to point to a folder
+
 ## #11 (26 June 2013): Fix problems
 
 * Updating body does no longer work

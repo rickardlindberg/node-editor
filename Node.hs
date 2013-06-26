@@ -1,5 +1,9 @@
 module Node where
 
+import Control.Monad
+import Data.List
+import System.Directory
+
 data Nodes = Nodes
     { selected :: String
     , children :: [Node]
@@ -26,6 +30,14 @@ nodeFromFile :: FilePath -> IO Node
 nodeFromFile path = do
     body <- readFile path
     return $ Node path body
+
+nodesFromDir :: FilePath -> IO Nodes
+nodesFromDir path = do
+    paths <- getDirectoryContents path
+    let fullPaths = map (\x -> path ++ x) paths
+    filePaths <- filterM doesFileExist fullPaths
+    nodes <- mapM nodeFromFile (sort filePaths)
+    return $ nodesFromNodes nodes
 
 nodesFromNodes :: [Node] -> Nodes
 nodesFromNodes nodes@(Node { header = header}:_) = Nodes header nodes

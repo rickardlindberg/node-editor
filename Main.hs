@@ -16,9 +16,8 @@ setupMainWindow = do
     canvas <- drawingAreaNew
     set mainWindow [ windowTitle := "Node Editor", containerChild := canvas ]
 
-    node1 <- nodeFromFile "test_data/nodes/node1"
-    node2 <- nodeFromFile "test_data/nodes/node2"
-    refNodes <- newIORef (nodesFromNodes [node1, node2])
+    nodes <- nodesFromDir "test_data/nodes/"
+    refNodes <- newIORef nodes
 
     let forceRedraw = postGUIAsync $ widgetQueueDraw canvas
 
